@@ -35,7 +35,7 @@ void kruskals(int cost[MAX][MAX], int n) {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (find(i) != find(j) && cost[i][j] < min) {
+                if (cost[i][j] < min) {
                     min = cost[i][j];
                     u = i;
                     v = j;
@@ -44,10 +44,14 @@ void kruskals(int cost[MAX][MAX], int n) {
         }
 
         if (u != -1 && v != -1) {
-            unionSets(u, v);
-            printf("Edge %d: (%d -> %d) cost: %d\n", edge_count + 1, u, v, min);
-            edge_count++;
-            mincost += min;
+            if (find(u) != find(v)){
+                unionSets(u, v);
+                printf("Edge %d: (%d -> %d) cost: %d\n", edge_count + 1, u, v, min);
+                edge_count++;
+                mincost += min;
+            }
+            cost[u][v] = INF;
+            cost[v][u] = INF;
         } else {
             break;
         }
